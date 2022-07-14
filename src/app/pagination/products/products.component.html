@@ -1,0 +1,87 @@
+<nav class="navbar bg-light">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1">ProductsClient (Pagination)</span>
+    </div>
+</nav>
+<div class="card">
+    <div class="card-body">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Pagination Settings</h5>
+                <div class="input-group">
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text">Set Page Range</span>
+                        </div>
+                        <input id="pageRangeF" type="number" aria-label="" class="form-control" [formControl] = "pageRangeF">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="updateRange()">Set</button>
+                        </div>
+                    </div>
+                    
+                    <ng-container *ngIf="productsPaginated">
+                        <div class="alert alert-secondary" role="alert">
+                            Page Range: {{pageRange}}
+                        </div>
+                        <div class="alert alert-primary" role="alert">
+                        Number Pages: {{productsPaginated.numberPages}}
+                        </div>
+                        <div class="alert alert-success" role="alert">
+                        Page: {{page}}
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Query Settings</h5>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text">Filter by Name</span>
+                    </div>
+                    <input id="nameF" type="text" aria-label="" class="form-control" [formControl] = "nameF">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="filterByName()">Set</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-dark table-hover">
+            <thead>
+                <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Image</th>
+                </tr>
+            </thead>
+            <tbody>
+            <ng-container *ngIf="productsPaginated">
+                <tr *ngFor="let product of productsPaginated.products">
+                    <th scope="row">{{product.id}}</th>
+                    <td>{{product.name}}</td>
+                    <td>{{product.price | currency:'USD'}}</td>
+                    <td>{{product.url}}</td>
+                </tr> 
+            </ng-container>
+            </tbody>
+        </table>
+        
+        
+        <ng-container *ngIf="pagesArray">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                <!-- <li class="page-item"><a class="page-link" href="#">Previous</a></li> -->
+                    <li *ngFor="let page of pagesArray" class="page-item"><a class="page-link" (click)="updatePage(page)">{{page}}</a></li>
+                <!-- <li class="page-item"><a class="page-link" href="#">Next</a></li> -->
+                </ul>
+            </nav>
+        </ng-container>
+    </div>
+</div>
+
